@@ -6,5 +6,15 @@ namespace Maher_Khan_gas_station
         {
             InitializeComponent();
         }
+
+        private void txtGallons_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
