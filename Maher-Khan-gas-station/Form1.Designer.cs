@@ -36,85 +36,101 @@
             btnExit = new Button();
             txtCustomerName = new TextBox();
             txtGallons = new TextBox();
+            lbl1 = new Label();
             SuspendLayout();
             // 
             // lblName
             // 
             lblName.AutoSize = true;
-            lblName.Location = new Point(217, 63);
+            lblName.Location = new Point(206, 136);
             lblName.Name = "lblName";
             lblName.Size = new Size(141, 25);
-            lblName.TabIndex = 0;
+            lblName.TabIndex = 2;
             lblName.Text = "Customer Name";
+            lblName.Click += lblName_Click;
             // 
             // lblGallons
             // 
             lblGallons.AutoSize = true;
-            lblGallons.Location = new Point(217, 138);
+            lblGallons.Location = new Point(206, 201);
             lblGallons.Name = "lblGallons";
             lblGallons.Size = new Size(70, 25);
-            lblGallons.TabIndex = 1;
+            lblGallons.TabIndex = 4;
             lblGallons.Text = "Gallons";
             lblGallons.Click += txtGallons_Click;
             // 
             // lstOutput
             // 
             lstOutput.FormattingEnabled = true;
-            lstOutput.Location = new Point(217, 202);
+            lstOutput.Location = new Point(206, 262);
             lstOutput.Name = "lstOutput";
             lstOutput.Size = new Size(625, 279);
-            lstOutput.TabIndex = 2;
+            lstOutput.TabIndex = 6;
             lstOutput.SelectedIndexChanged += lstOutput_SelectedIndexChanged;
             // 
             // btnCalc
             // 
-            btnCalc.Location = new Point(195, 543);
+            btnCalc.Location = new Point(217, 565);
             btnCalc.Name = "btnCalc";
-            btnCalc.Size = new Size(156, 107);
-            btnCalc.TabIndex = 3;
+            btnCalc.Size = new Size(134, 97);
+            btnCalc.TabIndex = 7;
             btnCalc.Text = "&Calculate";
             btnCalc.UseVisualStyleBackColor = true;
             btnCalc.Click += btnCalc_Click;
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(451, 543);
+            btnClear.Location = new Point(447, 565);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(156, 107);
-            btnClear.TabIndex = 4;
+            btnClear.Size = new Size(156, 97);
+            btnClear.TabIndex = 8;
             btnClear.Text = "C&lear";
             btnClear.UseVisualStyleBackColor = true;
             btnClear.Click += button2_Click;
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(708, 543);
+            btnExit.Location = new Point(680, 565);
             btnExit.Name = "btnExit";
-            btnExit.Size = new Size(156, 107);
-            btnExit.TabIndex = 5;
+            btnExit.Size = new Size(139, 97);
+            btnExit.TabIndex = 9;
             btnExit.Text = "E&xit";
             btnExit.UseVisualStyleBackColor = true;
             btnExit.Click += btnExit_Click;
             // 
             // txtCustomerName
             // 
-            txtCustomerName.Location = new Point(393, 63);
+            txtCustomerName.Location = new Point(382, 136);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.Size = new Size(449, 31);
-            txtCustomerName.TabIndex = 6;
+            txtCustomerName.TabIndex = 3;
+            txtCustomerName.Enter += txtCustomerName_Enter;
+            txtCustomerName.Leave += txtCustomerName_Leave;
             // 
             // txtGallons
             // 
-            txtGallons.Location = new Point(393, 132);
+            txtGallons.Location = new Point(382, 201);
             txtGallons.Name = "txtGallons";
             txtGallons.Size = new Size(449, 31);
-            txtGallons.TabIndex = 7;
+            txtGallons.TabIndex = 5;
+            // 
+            // lbl1
+            // 
+            lbl1.AutoSize = true;
+            lbl1.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
+            lbl1.Location = new Point(371, 52);
+            lbl1.Name = "lbl1";
+            lbl1.Size = new Size(336, 46);
+            lbl1.TabIndex = 1;
+            lbl1.Text = "Gas Price Calculator";
+            lbl1.Click += Label1_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1105, 717);
+            Controls.Add(lbl1);
             Controls.Add(txtGallons);
             Controls.Add(txtCustomerName);
             Controls.Add(btnExit);
@@ -124,7 +140,7 @@
             Controls.Add(lblGallons);
             Controls.Add(lblName);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Maher's Gas Price Calculator";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -139,5 +155,6 @@
         private Button btnExit;
         private TextBox txtCustomerName;
         private TextBox txtGallons;
+        private Label lbl1;
     }
 }
