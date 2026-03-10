@@ -86,7 +86,7 @@
             btnClear.TabIndex = 8;
             btnClear.Text = "C&lear";
             btnClear.UseVisualStyleBackColor = true;
-            btnClear.Click += button2_Click;
+            btnClear.Click += btnClear_Click;
             // 
             // btnExit
             // 
@@ -113,6 +113,8 @@
             txtGallons.Name = "txtGallons";
             txtGallons.Size = new Size(449, 31);
             txtGallons.TabIndex = 5;
+            txtGallons.Enter += txtGallons_Enter;
+            txtGallons.Leave += txtGallons_Leave;
             // 
             // lbl1
             // 
