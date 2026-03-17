@@ -12,11 +12,18 @@ namespace Maher_Khan_gas_station
 {
     public partial class Form1 : Form
     {
+        private string gasType = "";
+
+        const string REGULAR = "Regular";
+        const string PREMIUM = "Premium";
+        const string DIESEL = "Diesel";
+
         public Form1()
         {
             InitializeComponent();
         }
 
+        // Extra event methods kept so the Designer does not show errors
         private void txtGallons_Click(object sender, EventArgs e)
         {
 
@@ -44,15 +51,16 @@ namespace Maher_Khan_gas_station
             txtGallons.Clear();
             lstOutput.Items.Clear();
             txtCustomerName.Focus();
+            rdoRegular.Checked = true;
         }
 
         private void btnCalc_Click(object sender, EventArgs e)
         {
-            // ICA 4
+            // ICA 5
             // Declare Variables
 
             // setting this value to a literal FOR NOW
-            decimal pricePerGallon = 3.49m;
+            decimal pricePerGallon = 0m;
 
             // going to come from the user
             decimal gallons;
@@ -81,6 +89,26 @@ namespace Maher_Khan_gas_station
 
             if (gallonsGood && customerNameGood)
             {
+                switch (gasType)
+                {
+                    case REGULAR:
+                        pricePerGallon = 3.49m;
+                        break;
+
+                    case PREMIUM:
+                        pricePerGallon = 4.09m;
+                        break;
+
+                    case DIESEL:
+                        pricePerGallon = 3.89m;
+                        break;
+
+                    default:
+                        lstOutput.Items.Clear();
+                        lstOutput.Items.Add("Error in Switch statement - This should not happen.");
+                        return;
+                }
+
                 // do calculation
                 // for me that is price per gallon multiplied by gallons purchased
                 totalCost = pricePerGallon * gallons;
@@ -89,6 +117,7 @@ namespace Maher_Khan_gas_station
                 lstOutput.Items.Clear();
                 lstOutput.Items.Add("Gas Price Calculator");
                 lstOutput.Items.Add("The Customer Name is: " + customerName);
+                lstOutput.Items.Add("The Gas Type is: " + gasType);
                 lstOutput.Items.Add("The Gallons Purchased is: " + gallons.ToString("N2"));
                 lstOutput.Items.Add("The Price Per Gallon is: " + pricePerGallon.ToString("C"));
                 lstOutput.Items.Add("The Total Cost is: " + totalCost.ToString("C"));
@@ -149,6 +178,35 @@ namespace Maher_Khan_gas_station
         private void txtGallons_Leave(object sender, EventArgs e)
         {
             txtGallons.BackColor = SystemColors.Window;
+        }
+
+        private void rdoRegular_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoRegular.Checked)
+            {
+                gasType = REGULAR;
+            }
+        }
+
+        private void rdoPremium_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoPremium.Checked)
+            {
+                gasType = PREMIUM;
+            }
+        }
+
+        private void rdoDiesel_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoDiesel.Checked)
+            {
+                gasType = DIESEL;
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            rdoRegular.Checked = true;
         }
     }
 }
