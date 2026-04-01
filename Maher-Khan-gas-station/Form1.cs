@@ -7,26 +7,6 @@ namespace Maher_Khan_gas_station
 {
     public partial class Form1 : Form
     {
-        private string gasType = "";
-
-        const string REGULAR = "Regular";
-        const string PREMIUM = "Premium";
-        const string DIESEL = "Diesel";
-
-        // ICA 6
-        string logFile = "GasTransactionLog.txt";
-
-        // ICA 7
-        string cfgFile = "GasConfig.txt";
-        private decimal regularPrice = 3.49m;
-        private decimal premiumPrice = 4.09m;
-        private decimal dieselPrice = 3.89m;
-
-        public Form1()
-        {
-            InitializeComponent();
-        }
-
         private void lblName_Click(object sender, EventArgs e)
         {
 
@@ -45,6 +25,25 @@ namespace Maher_Khan_gas_station
         private void Label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private string gasType = "";
+
+        const string REGULAR = "Regular";
+        const string PREMIUM = "Premium";
+        const string DIESEL = "Diesel";
+
+        // Stage 3 / ICA 7
+        private decimal regularPrice = 3.49m;
+        private decimal premiumPrice = 4.09m;
+        private decimal dieselPrice = 3.89m;
+
+        string logFile = "GasTransactionLog.txt";
+        string configFile = "GasConfig.txt";
+
+        public Form1()
+        {
+            InitializeComponent();
         }
 
         private void btnCalc_Click(object sender, EventArgs e)
@@ -93,8 +92,8 @@ namespace Maher_Khan_gas_station
 
                     default:
                         {
-                            lstOutput.Items.Add("Error in Switch statement.");
-                            return;
+                            lstOutput.Items.Add("Error in Switch statement - This should not happen");
+                            break;
                         }
                 }
 
@@ -189,57 +188,45 @@ namespace Maher_Khan_gas_station
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            const string COMMENT_CHAR = "#";
-
             rdoRegular.Checked = true;
 
             StreamReader sr;
-            bool fileGood = true;
-            string temp = "";
+            OpenFileDialog ofd;
+            bool goodFile;
+
+            ofd = new OpenFileDialog();
+            ofd.FileName = configFile;
+            ofd.Title = "Select Gas Configuration File";
 
             do
             {
-                try
+                goodFile = true;
+
+                if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    sr = File.OpenText(cfgFile);
-                    fileGood = true;
-
-                    do
+                    try
                     {
-                        temp = sr.ReadLine();
-                    } while (temp.Substring(0, 1) == COMMENT_CHAR);
+                        sr = File.OpenText(ofd.FileName);
 
-                    regularPrice = decimal.Parse(temp);
+                        regularPrice = decimal.Parse(sr.ReadLine());
+                        premiumPrice = decimal.Parse(sr.ReadLine());
+                        dieselPrice = decimal.Parse(sr.ReadLine());
 
-                    do
+                        sr.Close();
+                    }
+                    catch (Exception ex)
                     {
-                        temp = sr.ReadLine();
-                    } while (temp.Substring(0, 1) == COMMENT_CHAR);
-
-                    premiumPrice = decimal.Parse(temp);
-
-                    do
-                    {
-                        temp = sr.ReadLine();
-                    } while (temp.Substring(0, 1) == COMMENT_CHAR);
-
-                    dieselPrice = decimal.Parse(temp);
-
-                    sr.Close();
+                        goodFile = false;
+                        MessageBox.Show("There was a problem reading the configuration file.\n" + ex.Message);
+                    }
                 }
-                catch (FileNotFoundException fnf)
+                else
                 {
-                    fileGood = false;
-
-                    MessageBox.Show(
-                        fnf.Message + "\nPlease enter the Configuration File",
-                        "Configuration File Not Found");
-
-                    openFileDialog1.Filter = "Text Files|*.txt|All Files|*.*";
-                    openFileDialog1.ShowDialog(this);
-                    cfgFile = openFileDialog1.FileName;
+                    MessageBox.Show("You must select a configuration file for the program to continue.");
+                    goodFile = false;
                 }
-            } while (!fileGood);
+
+            } while (!goodFile);
         }
 
         private void txtCustomerName_Enter(object sender, EventArgs e)
@@ -260,11 +247,6 @@ namespace Maher_Khan_gas_station
         private void txtGallons_Leave(object sender, EventArgs e)
         {
             txtGallons.BackColor = SystemColors.Window;
-        }
-
-        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
         }
     }
 }
