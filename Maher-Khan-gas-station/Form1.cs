@@ -1,29 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Maher_Khan_gas_station
 {
     public partial class Form1 : Form
     {
-        private string gasType = "";
-
-        const string REGULAR = "Regular";
-        const string PREMIUM = "Premium";
-        const string DIESEL = "Diesel";
-
-        public Form1()
+        private void lblName_Click(object sender, EventArgs e)
         {
-            InitializeComponent();
+
         }
 
-        // Extra event methods kept so the Designer does not show errors
         private void txtGallons_Click(object sender, EventArgs e)
         {
 
@@ -34,45 +22,33 @@ namespace Maher_Khan_gas_station
 
         }
 
-        private void lblName_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Label1_Click(object sender, EventArgs e)
         {
 
         }
+        private string gasType = "";
 
-        private void btnClear_Click(object sender, EventArgs e)
+        const string REGULAR = "Regular";
+        const string PREMIUM = "Premium";
+        const string DIESEL = "Diesel";
+
+        // ICA 6 - class level file name
+        string logFile = "GasTransactionLog.txt";
+
+        public Form1()
         {
-            // ICA 2
-            txtCustomerName.Clear();
-            txtGallons.Clear();
-            lstOutput.Items.Clear();
-            txtCustomerName.Focus();
-            rdoRegular.Checked = true;
+            InitializeComponent();
         }
 
         private void btnCalc_Click(object sender, EventArgs e)
         {
-            // ICA 5
-            // Declare Variables
-
-            // setting this value to a literal FOR NOW
             decimal pricePerGallon = 0m;
-
-            // going to come from the user
             decimal gallons;
             string customerName;
             decimal totalCost;
 
-            // validation variables
-            // gallonsGood indicates whether gallons was entered as a valid number
-            // customerNameGood indicates whether customer name was entered
             bool gallonsGood, customerNameGood;
 
-            // For string variables just set variable to text property
             customerName = txtCustomerName.Text;
 
             if (customerName == "")
@@ -84,7 +60,6 @@ namespace Maher_Khan_gas_station
                 customerNameGood = true;
             }
 
-            // For numeric you must convert a string to a number
             gallonsGood = decimal.TryParse(txtGallons.Text, out gallons);
 
             if (gallonsGood && customerNameGood)
@@ -92,92 +67,96 @@ namespace Maher_Khan_gas_station
                 switch (gasType)
                 {
                     case REGULAR:
-                        pricePerGallon = 3.49m;
-                        break;
+                        {
+                            pricePerGallon = 3.49m;
+                            break;
+                        }
 
                     case PREMIUM:
-                        pricePerGallon = 4.09m;
-                        break;
+                        {
+                            pricePerGallon = 4.09m;
+                            break;
+                        }
 
                     case DIESEL:
-                        pricePerGallon = 3.89m;
-                        break;
+                        {
+                            pricePerGallon = 3.89m;
+                            break;
+                        }
 
                     default:
-                        lstOutput.Items.Clear();
-                        lstOutput.Items.Add("Error in Switch statement - This should not happen.");
-                        return;
+                        {
+                            lstOutput.Items.Add("Error in Switch statement.");
+                            return;
+                        }
                 }
 
-                // do calculation
-                // for me that is price per gallon multiplied by gallons purchased
                 totalCost = pricePerGallon * gallons;
 
-                // output all variables to list box and make sure it is formatted
-                lstOutput.Items.Clear();
+                // DO NOT CLEAR (per instruction)
                 lstOutput.Items.Add("Gas Price Calculator");
-                lstOutput.Items.Add("The Customer Name is: " + customerName);
-                lstOutput.Items.Add("The Gas Type is: " + gasType);
-                lstOutput.Items.Add("The Gallons Purchased is: " + gallons.ToString("N2"));
-                lstOutput.Items.Add("The Price Per Gallon is: " + pricePerGallon.ToString("C"));
-                lstOutput.Items.Add("The Total Cost is: " + totalCost.ToString("C"));
+                lstOutput.Items.Add("Customer Name: " + customerName);
+                lstOutput.Items.Add("Gas Type: " + gasType);
+                lstOutput.Items.Add("Gallons: " + gallons.ToString("N2"));
+                lstOutput.Items.Add("Price Per Gallon: " + pricePerGallon.ToString("C"));
+                lstOutput.Items.Add("Total Cost: " + totalCost.ToString("C"));
 
-                // this gives the clear button the focus
+                // ICA 6 - WRITE TO FILE
+                StreamWriter sw;
+
+                // open log (append mode)
+                sw = File.AppendText(logFile);
+
+                sw.WriteLine("========== New Transaction ==========");
+                sw.WriteLine("Date/Time: " + DateTime.Now.ToString());
+                sw.WriteLine("Customer Name: " + customerName);
+                sw.WriteLine("Gas Type: " + gasType);
+                sw.WriteLine("Gallons: " + gallons.ToString("N2"));
+                sw.WriteLine("Price Per Gallon: " + pricePerGallon.ToString("C"));
+                sw.WriteLine("Total Cost: " + totalCost.ToString("C"));
+                sw.WriteLine("--------------------------------------");
+
+                sw.Close();
+
                 btnClear.Focus();
             }
-            else // Error Processing
+            else
             {
-                lstOutput.Items.Clear();
-
                 if (!customerNameGood)
                 {
-                    lstOutput.Items.Add("Please enter a value for Customer Name.");
+                    lstOutput.Items.Add("Please enter Customer Name.");
                 }
 
                 if (!gallonsGood)
                 {
-                    lstOutput.Items.Add("The gallons value was not entered as a number.");
+                    lstOutput.Items.Add("Gallons must be a number.");
                 }
             }
         }
 
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtCustomerName.Clear();
+            txtGallons.Clear();
+            lstOutput.Items.Clear();
+            txtCustomerName.Focus();
+            rdoRegular.Checked = true;
+        }
+
         private void btnExit_Click(object sender, EventArgs e)
         {
-            // ICA 4
             DialogResult buttonSelected;
 
-            buttonSelected = MessageBox.Show("Do you really want to quit?",
-                                             "Exiting...",
-                                             MessageBoxButtons.YesNo,
-                                             MessageBoxIcon.Question);
+            buttonSelected = MessageBox.Show(
+                "Do you really want to quit?",
+                "Exiting...",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (buttonSelected == DialogResult.Yes)
             {
-                // ICA 2
                 this.Close();
             }
-        }
-
-        // ICA 2
-        private void txtCustomerName_Enter(object sender, EventArgs e)
-        {
-            txtCustomerName.BackColor = Color.Beige;
-        }
-
-        private void txtCustomerName_Leave(object sender, EventArgs e)
-        {
-            txtCustomerName.BackColor = SystemColors.Window;
-        }
-
-        // ICA 3
-        private void txtGallons_Enter(object sender, EventArgs e)
-        {
-            txtGallons.BackColor = Color.Beige;
-        }
-
-        private void txtGallons_Leave(object sender, EventArgs e)
-        {
-            txtGallons.BackColor = SystemColors.Window;
         }
 
         private void rdoRegular_CheckedChanged(object sender, EventArgs e)
@@ -207,6 +186,26 @@ namespace Maher_Khan_gas_station
         private void Form1_Load(object sender, EventArgs e)
         {
             rdoRegular.Checked = true;
+        }
+
+        private void txtCustomerName_Enter(object sender, EventArgs e)
+        {
+            txtCustomerName.BackColor = Color.Beige;
+        }
+
+        private void txtCustomerName_Leave(object sender, EventArgs e)
+        {
+            txtCustomerName.BackColor = SystemColors.Window;
+        }
+
+        private void txtGallons_Enter(object sender, EventArgs e)
+        {
+            txtGallons.BackColor = Color.Beige;
+        }
+
+        private void txtGallons_Leave(object sender, EventArgs e)
+        {
+            txtGallons.BackColor = SystemColors.Window;
         }
     }
 }
