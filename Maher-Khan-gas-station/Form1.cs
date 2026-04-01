@@ -7,6 +7,26 @@ namespace Maher_Khan_gas_station
 {
     public partial class Form1 : Form
     {
+        private string gasType = "";
+
+        const string REGULAR = "Regular";
+        const string PREMIUM = "Premium";
+        const string DIESEL = "Diesel";
+
+        // ICA 6
+        string logFile = "GasTransactionLog.txt";
+
+        // ICA 7
+        string cfgFile = "GasConfig.txt";
+        private decimal regularPrice = 3.49m;
+        private decimal premiumPrice = 4.09m;
+        private decimal dieselPrice = 3.89m;
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
         private void lblName_Click(object sender, EventArgs e)
         {
 
@@ -25,19 +45,6 @@ namespace Maher_Khan_gas_station
         private void Label1_Click(object sender, EventArgs e)
         {
 
-        }
-        private string gasType = "";
-
-        const string REGULAR = "Regular";
-        const string PREMIUM = "Premium";
-        const string DIESEL = "Diesel";
-
-        // ICA 6 - class level file name
-        string logFile = "GasTransactionLog.txt";
-
-        public Form1()
-        {
-            InitializeComponent();
         }
 
         private void btnCalc_Click(object sender, EventArgs e)
@@ -68,19 +75,19 @@ namespace Maher_Khan_gas_station
                 {
                     case REGULAR:
                         {
-                            pricePerGallon = 3.49m;
+                            pricePerGallon = regularPrice;
                             break;
                         }
 
                     case PREMIUM:
                         {
-                            pricePerGallon = 4.09m;
+                            pricePerGallon = premiumPrice;
                             break;
                         }
 
                     case DIESEL:
                         {
-                            pricePerGallon = 3.89m;
+                            pricePerGallon = dieselPrice;
                             break;
                         }
 
@@ -93,7 +100,6 @@ namespace Maher_Khan_gas_station
 
                 totalCost = pricePerGallon * gallons;
 
-                // DO NOT CLEAR (per instruction)
                 lstOutput.Items.Add("Gas Price Calculator");
                 lstOutput.Items.Add("Customer Name: " + customerName);
                 lstOutput.Items.Add("Gas Type: " + gasType);
@@ -101,10 +107,8 @@ namespace Maher_Khan_gas_station
                 lstOutput.Items.Add("Price Per Gallon: " + pricePerGallon.ToString("C"));
                 lstOutput.Items.Add("Total Cost: " + totalCost.ToString("C"));
 
-                // ICA 6 - WRITE TO FILE
                 StreamWriter sw;
 
-                // open log (append mode)
                 sw = File.AppendText(logFile);
 
                 sw.WriteLine("========== New Transaction ==========");
@@ -185,7 +189,57 @@ namespace Maher_Khan_gas_station
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            const string COMMENT_CHAR = "#";
+
             rdoRegular.Checked = true;
+
+            StreamReader sr;
+            bool fileGood = true;
+            string temp = "";
+
+            do
+            {
+                try
+                {
+                    sr = File.OpenText(cfgFile);
+                    fileGood = true;
+
+                    do
+                    {
+                        temp = sr.ReadLine();
+                    } while (temp.Substring(0, 1) == COMMENT_CHAR);
+
+                    regularPrice = decimal.Parse(temp);
+
+                    do
+                    {
+                        temp = sr.ReadLine();
+                    } while (temp.Substring(0, 1) == COMMENT_CHAR);
+
+                    premiumPrice = decimal.Parse(temp);
+
+                    do
+                    {
+                        temp = sr.ReadLine();
+                    } while (temp.Substring(0, 1) == COMMENT_CHAR);
+
+                    dieselPrice = decimal.Parse(temp);
+
+                    sr.Close();
+                }
+                catch (FileNotFoundException fnf)
+                {
+                    fileGood = false;
+
+                    MessageBox.Show(
+                        fnf.Message + "\nPlease enter the Configuration File",
+                        "Configuration File Not Found");
+
+                    openFileDialog1.Filter = "Text Files|*.txt|All Files|*.*";
+                    openFileDialog1.ShowDialog(this);
+                    cfgFile = openFileDialog1.FileName;
+                }
+            } while (!fileGood);
         }
 
         private void txtCustomerName_Enter(object sender, EventArgs e)
@@ -206,6 +260,11 @@ namespace Maher_Khan_gas_station
         private void txtGallons_Leave(object sender, EventArgs e)
         {
             txtGallons.BackColor = SystemColors.Window;
+        }
+
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
         }
     }
 }
