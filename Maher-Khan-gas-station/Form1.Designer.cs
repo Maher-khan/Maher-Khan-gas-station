@@ -42,16 +42,18 @@
             rdoPremium = new RadioButton();
             rdoRegular = new RadioButton();
             openFileDialog1 = new OpenFileDialog();
+            settingsToolStripMenuItem = new MenuStrip();
+            settingsToolStripMenuItem1 = new ToolStripMenuItem();
             grpGasType.SuspendLayout();
+            settingsToolStripMenuItem.SuspendLayout();
             SuspendLayout();
             // 
             // lblName
             // 
             lblName.AutoSize = true;
-            lblName.Location = new Point(156, 137);
-            lblName.Margin = new Padding(2, 0, 2, 0);
+            lblName.Location = new Point(223, 228);
             lblName.Name = "lblName";
-            lblName.Size = new Size(94, 15);
+            lblName.Size = new Size(141, 25);
             lblName.TabIndex = 2;
             lblName.Text = "Customer Name";
             lblName.Click += lblName_Click;
@@ -59,10 +61,9 @@
             // lblGallons
             // 
             lblGallons.AutoSize = true;
-            lblGallons.Location = new Point(156, 169);
-            lblGallons.Margin = new Padding(2, 0, 2, 0);
+            lblGallons.Location = new Point(223, 282);
             lblGallons.Name = "lblGallons";
-            lblGallons.Size = new Size(46, 15);
+            lblGallons.Size = new Size(70, 25);
             lblGallons.TabIndex = 4;
             lblGallons.Text = "Gallons";
             lblGallons.Click += txtGallons_Click;
@@ -70,19 +71,17 @@
             // lstOutput
             // 
             lstOutput.FormattingEnabled = true;
-            lstOutput.Location = new Point(156, 206);
-            lstOutput.Margin = new Padding(2, 2, 2, 2);
+            lstOutput.Location = new Point(223, 343);
             lstOutput.Name = "lstOutput";
-            lstOutput.Size = new Size(439, 169);
+            lstOutput.Size = new Size(625, 279);
             lstOutput.TabIndex = 6;
             lstOutput.SelectedIndexChanged += lstOutput_SelectedIndexChanged;
             // 
             // btnCalc
             // 
-            btnCalc.Location = new Point(156, 389);
-            btnCalc.Margin = new Padding(2, 2, 2, 2);
+            btnCalc.Location = new Point(223, 648);
             btnCalc.Name = "btnCalc";
-            btnCalc.Size = new Size(94, 58);
+            btnCalc.Size = new Size(134, 97);
             btnCalc.TabIndex = 7;
             btnCalc.Text = "&Calculate";
             btnCalc.UseVisualStyleBackColor = true;
@@ -90,10 +89,9 @@
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(320, 389);
-            btnClear.Margin = new Padding(2, 2, 2, 2);
+            btnClear.Location = new Point(457, 648);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(109, 58);
+            btnClear.Size = new Size(156, 97);
             btnClear.TabIndex = 8;
             btnClear.Text = "C&lear";
             btnClear.UseVisualStyleBackColor = true;
@@ -101,10 +99,9 @@
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(496, 389);
-            btnExit.Margin = new Padding(2, 2, 2, 2);
+            btnExit.Location = new Point(709, 648);
             btnExit.Name = "btnExit";
-            btnExit.Size = new Size(97, 58);
+            btnExit.Size = new Size(139, 97);
             btnExit.TabIndex = 9;
             btnExit.Text = "E&xit";
             btnExit.UseVisualStyleBackColor = true;
@@ -112,20 +109,18 @@
             // 
             // txtCustomerName
             // 
-            txtCustomerName.Location = new Point(279, 137);
-            txtCustomerName.Margin = new Padding(2, 2, 2, 2);
+            txtCustomerName.Location = new Point(399, 228);
             txtCustomerName.Name = "txtCustomerName";
-            txtCustomerName.Size = new Size(316, 23);
+            txtCustomerName.Size = new Size(450, 31);
             txtCustomerName.TabIndex = 3;
             txtCustomerName.Enter += txtCustomerName_Enter;
             txtCustomerName.Leave += txtCustomerName_Leave;
             // 
             // txtGallons
             // 
-            txtGallons.Location = new Point(279, 169);
-            txtGallons.Margin = new Padding(2, 2, 2, 2);
+            txtGallons.Location = new Point(399, 282);
             txtGallons.Name = "txtGallons";
-            txtGallons.Size = new Size(316, 23);
+            txtGallons.Size = new Size(450, 31);
             txtGallons.TabIndex = 5;
             txtGallons.Enter += txtGallons_Enter;
             txtGallons.Leave += txtGallons_Leave;
@@ -134,10 +129,9 @@
             // 
             lbl1.AutoSize = true;
             lbl1.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
-            lbl1.Location = new Point(267, 22);
-            lbl1.Margin = new Padding(2, 0, 2, 0);
+            lbl1.Location = new Point(381, 37);
             lbl1.Name = "lbl1";
-            lbl1.Size = new Size(226, 31);
+            lbl1.Size = new Size(336, 46);
             lbl1.TabIndex = 1;
             lbl1.Text = "Gas Price Calculator";
             lbl1.Click += Label1_Click;
@@ -147,11 +141,9 @@
             grpGasType.Controls.Add(rdoDiesel);
             grpGasType.Controls.Add(rdoPremium);
             grpGasType.Controls.Add(rdoRegular);
-            grpGasType.Location = new Point(156, 57);
-            grpGasType.Margin = new Padding(2, 2, 2, 2);
+            grpGasType.Location = new Point(223, 95);
             grpGasType.Name = "grpGasType";
-            grpGasType.Padding = new Padding(2, 2, 2, 2);
-            grpGasType.Size = new Size(438, 65);
+            grpGasType.Size = new Size(626, 108);
             grpGasType.TabIndex = 10;
             grpGasType.TabStop = false;
             grpGasType.Text = "Gas Type";
@@ -159,10 +151,9 @@
             // rdoDiesel
             // 
             rdoDiesel.AutoSize = true;
-            rdoDiesel.Location = new Point(326, 30);
-            rdoDiesel.Margin = new Padding(2, 2, 2, 2);
+            rdoDiesel.Location = new Point(466, 50);
             rdoDiesel.Name = "rdoDiesel";
-            rdoDiesel.Size = new Size(56, 19);
+            rdoDiesel.Size = new Size(84, 29);
             rdoDiesel.TabIndex = 2;
             rdoDiesel.TabStop = true;
             rdoDiesel.Text = "Diesel";
@@ -172,10 +163,9 @@
             // rdoPremium
             // 
             rdoPremium.AutoSize = true;
-            rdoPremium.Location = new Point(179, 30);
-            rdoPremium.Margin = new Padding(2, 2, 2, 2);
+            rdoPremium.Location = new Point(256, 50);
             rdoPremium.Name = "rdoPremium";
-            rdoPremium.Size = new Size(74, 19);
+            rdoPremium.Size = new Size(108, 29);
             rdoPremium.TabIndex = 1;
             rdoPremium.TabStop = true;
             rdoPremium.Text = "Premium";
@@ -185,10 +175,9 @@
             // rdoRegular
             // 
             rdoRegular.AutoSize = true;
-            rdoRegular.Location = new Point(57, 30);
-            rdoRegular.Margin = new Padding(2, 2, 2, 2);
+            rdoRegular.Location = new Point(81, 50);
             rdoRegular.Name = "rdoRegular";
-            rdoRegular.Size = new Size(65, 19);
+            rdoRegular.Size = new Size(96, 29);
             rdoRegular.TabIndex = 0;
             rdoRegular.TabStop = true;
             rdoRegular.Text = "Regular";
@@ -199,11 +188,29 @@
             // 
             openFileDialog1.FileName = "openFileDialog1";
             // 
+            // settingsToolStripMenuItem
+            // 
+            settingsToolStripMenuItem.ImageScalingSize = new Size(24, 24);
+            settingsToolStripMenuItem.Items.AddRange(new ToolStripItem[] { settingsToolStripMenuItem1 });
+            settingsToolStripMenuItem.Location = new Point(0, 0);
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new Size(1097, 33);
+            settingsToolStripMenuItem.TabIndex = 11;
+            settingsToolStripMenuItem.Text = "Settings";
+            settingsToolStripMenuItem.ItemClicked += settingsToolStripMenuItem_ItemClicked;
+            // 
+            // settingsToolStripMenuItem1
+            // 
+            settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
+            settingsToolStripMenuItem1.Size = new Size(92, 29);
+            settingsToolStripMenuItem1.Text = "Settings";
+            settingsToolStripMenuItem1.Click += settingsToolStripMenuItem_Click;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(768, 472);
+            ClientSize = new Size(1097, 787);
             Controls.Add(grpGasType);
             Controls.Add(lbl1);
             Controls.Add(txtGallons);
@@ -214,12 +221,15 @@
             Controls.Add(lstOutput);
             Controls.Add(lblGallons);
             Controls.Add(lblName);
-            Margin = new Padding(2, 2, 2, 2);
+            Controls.Add(settingsToolStripMenuItem);
+            MainMenuStrip = settingsToolStripMenuItem;
             Name = "Form1";
             Text = "Maher's Gas Price Calculator";
             Load += Form1_Load;
             grpGasType.ResumeLayout(false);
             grpGasType.PerformLayout();
+            settingsToolStripMenuItem.ResumeLayout(false);
+            settingsToolStripMenuItem.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -240,5 +250,7 @@
         private RadioButton rdoPremium;
         private RadioButton rdoRegular;
         private OpenFileDialog openFileDialog1;
+        private MenuStrip settingsToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem1;
     }
 }
