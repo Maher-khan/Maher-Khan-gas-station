@@ -56,7 +56,7 @@
             lblName.Size = new Size(141, 25);
             lblName.TabIndex = 2;
             lblName.Text = "Customer Name";
-            lblName.Click += lblName_Click;
+//           lblName.Click += lblName_Click;
             // 
             // lblGallons
             // 
@@ -66,7 +66,7 @@
             lblGallons.Size = new Size(70, 25);
             lblGallons.TabIndex = 4;
             lblGallons.Text = "Gallons";
-            lblGallons.Click += txtGallons_Click;
+     //       lblGallons.Click += txtGallons_Click;
             // 
             // lstOutput
             // 
@@ -75,7 +75,7 @@
             lstOutput.Name = "lstOutput";
             lstOutput.Size = new Size(625, 279);
             lstOutput.TabIndex = 6;
-            lstOutput.SelectedIndexChanged += lstOutput_SelectedIndexChanged;
+           // lstOutput.SelectedIndexChanged += lstOutput_SelectedIndexChanged;
             // 
             // btnCalc
             // 
@@ -134,7 +134,7 @@
             lbl1.Size = new Size(336, 46);
             lbl1.TabIndex = 1;
             lbl1.Text = "Gas Price Calculator";
-            lbl1.Click += Label1_Click;
+          //  lbl1.Click += Label1_Click;
             // 
             // grpGasType
             // 
