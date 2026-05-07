@@ -41,7 +41,7 @@ namespace Maher_Khan_gas_station
 
                 // Saves the values in the configuration file
                 StreamWriter sw;
-                sw = File.CreateText("GasConfig.txt");
+                sw = File.CreateText(transactionForm.ConfigFile);
 
                 sw.WriteLine(transactionForm.RegularPrice.ToString("N2"));
                 sw.WriteLine(transactionForm.PremiumPrice.ToString("N2"));

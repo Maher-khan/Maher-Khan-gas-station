@@ -37,7 +37,7 @@ namespace Maher_Khan_gas_station
         private Form2 settingForm;
 
         // ICA 8 - Properties
-      
+
         public decimal RegularPrice
         {
             get { return regularPrice; }
@@ -50,15 +50,19 @@ namespace Maher_Khan_gas_station
             set { premiumPrice = value; }
         }
 
-       
+
         public decimal DieselPrice
         {
             get { return dieselPrice; }
             set { dieselPrice = value; }
         }
 
-      
-     
+        public string ConfigFile
+        {
+            get { return cfgFile; }
+            set { cfgFile = value; }
+        }
+
         private void btnCalc_Click(object sender, EventArgs e)
         {
             // ICA 3
@@ -325,5 +329,60 @@ namespace Maher_Khan_gas_station
 
         }
 
+        private void printLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // ICA 10 - Arrays
+            string[] gasLogEntries;
+            const int MAX_ENTRIES = 2000;
+            gasLogEntries = new string[MAX_ENTRIES];
+
+            StreamReader sr;
+            int numEntries = 0;
+
+            try
+            {
+                sr = File.OpenText(logFile);
+
+                // while loop - read one line at a time
+                while (!sr.EndOfStream && numEntries < MAX_ENTRIES)
+                {
+                    gasLogEntries[numEntries] = sr.ReadLine();
+                    numEntries++;
+                }
+
+                sr.Close();
+
+                lstOutput.Items.Clear();
+
+                string gasSearch = "Gas Type: " + gasType;
+
+                // for loop - display matching transactions
+                for (int i = 0; i < numEntries; i++)
+                {
+                    if (gasLogEntries[i] == gasSearch)
+                    {
+                        for (int j = i - 3; j <= i + 4 && j < numEntries; j++)
+                        {
+                            if (j >= 0)
+                            {
+                                lstOutput.Items.Add(gasLogEntries[j]);
+                            }
+                        }
+
+                        lstOutput.Items.Add("");
+                    }
+                }
+
+                if (lstOutput.Items.Count == 0)
+                {
+                    lstOutput.Items.Add("No transactions found for " + gasType + ".");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                lstOutput.Items.Clear();
+                lstOutput.Items.Add("The log file was not found.");
+            }
+        }
     }
 }

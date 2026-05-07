@@ -44,6 +44,7 @@
             openFileDialog1 = new OpenFileDialog();
             settingsToolStripMenuItem = new MenuStrip();
             settingsToolStripMenuItem1 = new ToolStripMenuItem();
+            printLogFileToolStripMenuItem = new ToolStripMenuItem();
             grpGasType.SuspendLayout();
             settingsToolStripMenuItem.SuspendLayout();
             SuspendLayout();
@@ -56,7 +57,6 @@
             lblName.Size = new Size(141, 25);
             lblName.TabIndex = 2;
             lblName.Text = "Customer Name";
-//           lblName.Click += lblName_Click;
             // 
             // lblGallons
             // 
@@ -66,16 +66,15 @@
             lblGallons.Size = new Size(70, 25);
             lblGallons.TabIndex = 4;
             lblGallons.Text = "Gallons";
-     //       lblGallons.Click += txtGallons_Click;
             // 
             // lstOutput
             // 
             lstOutput.FormattingEnabled = true;
+            lstOutput.ItemHeight = 25;
             lstOutput.Location = new Point(223, 343);
             lstOutput.Name = "lstOutput";
             lstOutput.Size = new Size(625, 279);
             lstOutput.TabIndex = 6;
-           // lstOutput.SelectedIndexChanged += lstOutput_SelectedIndexChanged;
             // 
             // btnCalc
             // 
@@ -134,7 +133,6 @@
             lbl1.Size = new Size(336, 46);
             lbl1.TabIndex = 1;
             lbl1.Text = "Gas Price Calculator";
-          //  lbl1.Click += Label1_Click;
             // 
             // grpGasType
             // 
@@ -191,7 +189,7 @@
             // settingsToolStripMenuItem
             // 
             settingsToolStripMenuItem.ImageScalingSize = new Size(24, 24);
-            settingsToolStripMenuItem.Items.AddRange(new ToolStripItem[] { settingsToolStripMenuItem1 });
+            settingsToolStripMenuItem.Items.AddRange(new ToolStripItem[] { settingsToolStripMenuItem1, printLogFileToolStripMenuItem });
             settingsToolStripMenuItem.Location = new Point(0, 0);
             settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             settingsToolStripMenuItem.Size = new Size(1097, 33);
@@ -205,6 +203,13 @@
             settingsToolStripMenuItem1.Size = new Size(92, 29);
             settingsToolStripMenuItem1.Text = "Settings";
             settingsToolStripMenuItem1.Click += settingsToolStripMenuItem_Click;
+            // 
+            // printLogFileToolStripMenuItem
+            // 
+            printLogFileToolStripMenuItem.Name = "printLogFileToolStripMenuItem";
+            printLogFileToolStripMenuItem.Size = new Size(130, 29);
+            printLogFileToolStripMenuItem.Text = "Print Log File";
+            printLogFileToolStripMenuItem.Click += printLogFileToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -252,5 +257,6 @@
         private OpenFileDialog openFileDialog1;
         private MenuStrip settingsToolStripMenuItem;
         private ToolStripMenuItem settingsToolStripMenuItem1;
+        private ToolStripMenuItem printLogFileToolStripMenuItem;
     }
 }
