@@ -1,5 +1,5 @@
 using System;
-using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -7,11 +7,9 @@ namespace Maher_Khan_gas_station
 {
     public partial class Form1 : Form
     {
-
         public Form1()
         {
             InitializeComponent();
-            RegularPrice = 2.5m;
 
             // ICA 9 - create the form2 object
             settingForm = new Form2(this);
@@ -22,9 +20,14 @@ namespace Maher_Khan_gas_station
         const string PREMIUM = "Premium";
         const string DIESEL = "Diesel";
 
+        // ICA 11 - output locations
+        const int OUTPUT_LISTBOX = 1;
+        const int OUTPUT_LOGFILE = 2;
+        const int OUTPUT_BOTH = 3;
+
         private string gasType = "";
 
-        // ICA 7 backing fields (config values)
+        // ICA 7 backing fields
         private decimal regularPrice = 2.50m;
         private decimal premiumPrice = 3.00m;
         private decimal dieselPrice = 2.80m;
@@ -33,11 +36,10 @@ namespace Maher_Khan_gas_station
         private string logFile = "GasTransactionLog.txt";
         internal string cfgFile = "GasConfig.txt";
 
-        // ICA 9 - declare the form2 variable
+        // ICA 9
         private Form2 settingForm;
 
         // ICA 8 - Properties
-
         public decimal RegularPrice
         {
             get { return regularPrice; }
@@ -49,7 +51,6 @@ namespace Maher_Khan_gas_station
             get { return premiumPrice; }
             set { premiumPrice = value; }
         }
-
 
         public decimal DieselPrice
         {
@@ -66,7 +67,6 @@ namespace Maher_Khan_gas_station
         private void btnCalc_Click(object sender, EventArgs e)
         {
             // ICA 3
-            // Declare Variables
             decimal pricePerGallon = 0m;
             decimal gallons;
             string customerName;
@@ -75,7 +75,6 @@ namespace Maher_Khan_gas_station
             // ICA 4
             bool gallonsGood, customerNameGood;
 
-            // For string variables just set variable to text property
             customerName = txtCustomerName.Text;
 
             if (customerName == "")
@@ -87,7 +86,6 @@ namespace Maher_Khan_gas_station
                 customerNameGood = true;
             }
 
-            // For numerics you must convert a string to a number
             gallonsGood = decimal.TryParse(txtGallons.Text, out gallons);
 
             if (gallonsGood && customerNameGood)
@@ -107,49 +105,35 @@ namespace Maher_Khan_gas_station
                         break;
 
                     default:
-                        lstOutput.Items.Add("Error in switch statement - This should not happen");
+                        SendOutput(OUTPUT_LISTBOX, "Error in switch statement - This should not happen");
                         return;
                 }
 
-                // do calculation
                 totalCost = pricePerGallon * gallons;
 
-                // output all variables to list box and make sure it is formatted
-                lstOutput.Items.Add("Gas Price Calculator");
-                lstOutput.Items.Add("Customer Name: " + customerName);
-                lstOutput.Items.Add("Gas Type: " + gasType);
-                lstOutput.Items.Add("Gallons: " + gallons.ToString("N2"));
-                lstOutput.Items.Add("Price Per Gallon: " + pricePerGallon.ToString("C"));
-                lstOutput.Items.Add("Total Cost: " + totalCost.ToString("C"));
+                // ICA 11 - output to both listbox and log file
+                SendOutput(OUTPUT_BOTH, "========== New Transaction ==========");
+                SendOutput(OUTPUT_BOTH, "Date/Time: " + DateTime.Now.ToString());
+                SendOutput(OUTPUT_BOTH, "Gas Price Calculator");
+                SendOutput(OUTPUT_BOTH, "Customer Name: " + customerName);
+                SendOutput(OUTPUT_BOTH, "Gas Type: " + gasType);
+                SendOutput(OUTPUT_BOTH, "Gallons: " + gallons.ToString("N2"));
+                SendOutput(OUTPUT_BOTH, "Price Per Gallon: " + pricePerGallon.ToString("C"));
+                SendOutput(OUTPUT_BOTH, "Total Cost: " + totalCost.ToString("C"));
+                SendOutput(OUTPUT_BOTH, "--------------------------------------");
 
-                // ICA 6 - writing output to a file
-                StreamWriter sw;
-                sw = File.AppendText(logFile);
-
-                sw.WriteLine("========== New Transaction ==========");
-                sw.WriteLine("Date/Time: " + DateTime.Now.ToString());
-                sw.WriteLine("Customer Name: " + customerName);
-                sw.WriteLine("Gas Type: " + gasType);
-                sw.WriteLine("Gallons: " + gallons.ToString("N2"));
-                sw.WriteLine("Price Per Gallon: " + pricePerGallon.ToString("C"));
-                sw.WriteLine("Total Cost: " + totalCost.ToString("C"));
-                sw.WriteLine("--------------------------------------");
-
-                sw.Close();
-
-                // this gives the clear button the focus
                 btnClear.Focus();
             }
-            else // error processing
+            else
             {
                 if (!customerNameGood)
                 {
-                    lstOutput.Items.Add("Please enter Customer Name.");
+                    SendOutput(OUTPUT_LISTBOX, "Please enter Customer Name.");
                 }
 
                 if (!gallonsGood)
                 {
-                    lstOutput.Items.Add("Gallons must be a number.");
+                    SendOutput(OUTPUT_LISTBOX, "Gallons must be a number.");
                 }
             }
         }
@@ -245,53 +229,54 @@ namespace Maher_Khan_gas_station
 
                 try
                 {
-                    // normal situation - open the file directly first
                     sr = File.OpenText(cfgFile);
 
-                    // REGULAR
                     do
                     {
                         temp = sr.ReadLine() ?? "";
-                        if (temp == "")
-                        {
-                            throw new Exception("Configuration file is missing the Regular price.");
-                        }
                     } while (temp.StartsWith(COMMENT));
 
-                    decimal.TryParse(temp, out tempValue);
-                    RegularPrice = tempValue;
+                    if (decimal.TryParse(temp, out tempValue))
+                    {
+                        RegularPrice = tempValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Problem reading Regular price. Default value will be used.");
+                    }
 
-                    // PREMIUM
                     do
                     {
                         temp = sr.ReadLine() ?? "";
-                        if (temp == "")
-                        {
-                            throw new Exception("Configuration file is missing the Premium price.");
-                        }
                     } while (temp.StartsWith(COMMENT));
 
-                    decimal.TryParse(temp, out tempValue);
-                    PremiumPrice = tempValue;
+                    if (decimal.TryParse(temp, out tempValue))
+                    {
+                        PremiumPrice = tempValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Problem reading Premium price. Default value will be used.");
+                    }
 
-                    // DIESEL
                     do
                     {
                         temp = sr.ReadLine() ?? "";
-                        if (temp == "")
-                        {
-                            throw new Exception("Configuration file is missing the Diesel price.");
-                        }
                     } while (temp.StartsWith(COMMENT));
 
-                    decimal.TryParse(temp, out tempValue);
-                    DieselPrice = tempValue;
+                    if (decimal.TryParse(temp, out tempValue))
+                    {
+                        DieselPrice = tempValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Problem reading Diesel price. Default value will be used.");
+                    }
 
                     sr.Close();
                 }
                 catch (FileNotFoundException)
                 {
-                    // only if missing, ask the user to find it
                     fileGood = false;
 
                     MessageBox.Show("Config file not found. Please select it.");
@@ -303,18 +288,24 @@ namespace Maher_Khan_gas_station
                     {
                         cfgFile = ofd.FileName;
                     }
+                    else
+                    {
+                        fileGood = true;
+                        MessageBox.Show("Default prices will be used.");
+                    }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    fileGood = false;
-                    MessageBox.Show(ex.Message);
+                    fileGood = true;
+                    MessageBox.Show("Problem reading config file. Default prices will be used.");
                 }
+
             } while (!fileGood);
 
             rdoRegular.Checked = true;
         }
 
-        // ICA 9 - menu item click to show second form
+        // ICA 9
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             settingForm.txtRegularPrice.Text = RegularPrice.ToString("N2");
@@ -343,7 +334,6 @@ namespace Maher_Khan_gas_station
             {
                 sr = File.OpenText(logFile);
 
-                // while loop - read one line at a time
                 while (!sr.EndOfStream && numEntries < MAX_ENTRIES)
                 {
                     gasLogEntries[numEntries] = sr.ReadLine();
@@ -356,12 +346,11 @@ namespace Maher_Khan_gas_station
 
                 string gasSearch = "Gas Type: " + gasType;
 
-                // for loop - display matching transactions
                 for (int i = 0; i < numEntries; i++)
                 {
                     if (gasLogEntries[i] == gasSearch)
                     {
-                        for (int j = i - 3; j <= i + 4 && j < numEntries; j++)
+                        for (int j = i - 3; j <= i + 5 && j < numEntries; j++)
                         {
                             if (j >= 0)
                             {
@@ -382,6 +371,24 @@ namespace Maher_Khan_gas_station
             {
                 lstOutput.Items.Clear();
                 lstOutput.Items.Add("The log file was not found.");
+            }
+        }
+
+        // ICA 11 - Methods
+        private void SendOutput(int outputLocation, string outputText)
+        {
+            StreamWriter sw;
+
+            if (outputLocation == OUTPUT_LISTBOX || outputLocation == OUTPUT_BOTH)
+            {
+                lstOutput.Items.Add(outputText);
+            }
+
+            if (outputLocation == OUTPUT_LOGFILE || outputLocation == OUTPUT_BOTH)
+            {
+                sw = File.AppendText(logFile);
+                sw.WriteLine(outputText);
+                sw.Close();
             }
         }
     }

@@ -133,7 +133,7 @@
             Controls.Add(lblRegularPrice);
             Controls.Add(lblTitle);
             Name = "Form2";
-            Text = "Form2";
+            Text = "Gas Price Settings";
             ResumeLayout(false);
             PerformLayout();
         }
